@@ -11,3 +11,4 @@ CMD ["bash"]
 
 FROM artisantek/tomcat:1
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/
+EXPOSE 9050
