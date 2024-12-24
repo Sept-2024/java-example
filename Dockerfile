@@ -5,7 +5,7 @@ WORKDIR /java-example
 
 FROM maven:amazoncorretto AS build
 WORKDIR /app
-COPY . .
+COPY --from=checkout /java-example /app
 RUN mvn clean package
 CMD ["bash"]
 
