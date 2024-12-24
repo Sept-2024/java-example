@@ -1,7 +1,13 @@
-FROM maven:amazoncorretto as build
-WORKDIR /javaapp
-COPY . .
-RUN mvn clean install
+FROM ubuntu:latest AS checkout
+RUN apt update && apt install git -y && apt-get clean
+RUN git clone https://github.com/Sept-2024/java-example.git
+WORKDIR /java-example
 
-FROM adhig93/tomcat-conf
-COPY --from=build /javaapp/target/*.war /usr/local/tomcat/webapps/
+FROM maven:amazoncorretto AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+CMD ["bash"]
+
+FROM artisantek/tomcat:1
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/
